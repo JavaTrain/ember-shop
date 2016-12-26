@@ -7,7 +7,7 @@ export default DS.Model.extend({
     name: attr('string'),
     description: attr('string'),
     price: attr(),
-    category: attr(),
+    category: belongsTo('category'),
     brand: belongsTo('brand'),
     productSets: hasMany('product-set'),
     product2Attributes: hasMany('product2-attribute'),

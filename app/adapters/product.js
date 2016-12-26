@@ -15,7 +15,7 @@ export default ApplicationAdapter.extend({
         });
     },
     findRecord: function(store, type, id, snapshot) {
-        var url = `${config.host}/${config.apiVersion}/categories/${snapshot.record.get('categoryId')}/products/${id}`;
+        var url = `${config.host}/${config.apiVersion}/categories/${snapshot.record.get('category.id')}/products/${id}`;
 
         return new Ember.RSVP.Promise(function(resolve, reject) {
             Ember.$.getJSON(url).then(function(data) {

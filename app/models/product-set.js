@@ -5,5 +5,5 @@ import {belongsTo, hasMany} from "ember-data/relationships";
 export default DS.Model.extend({
     name: attr('string'),
     product: belongsTo('product'),
-    // product2Options: hasMany('product2-option'),
+    product2Options: hasMany('product2-option'),
 });
