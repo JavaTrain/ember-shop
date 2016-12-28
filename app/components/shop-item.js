@@ -2,6 +2,7 @@ import Ember from 'ember';
 import _ from "lodash/lodash";
 
 export default Ember.Component.extend({
+    cart: Ember.inject.service('shopping-cart'),
     router: Ember.inject.service('_routing'),
     itemOptions: null,
     productOptions: {},
@@ -13,6 +14,7 @@ export default Ember.Component.extend({
     isCancelled: Ember.computed('chosenSet', function(){
         return _.isNull(this.get('chosenSet'));
     }),
+    quantity: 1,
 
     init(){
         this._super(...arguments);
@@ -82,16 +84,28 @@ export default Ember.Component.extend({
                     self.set('checkedOptions', checkedOptions);
                 }
             });
-
             self.set('chosenSet', null);
-            _.each(this.get('availableOptions'), function (item) {
-                console.log(item, checkedOptions);
+            _.each(this.get('availableOptions'), function (item, key) {
                 if (_.isEqual(item, checkedOptions)) {
-                    self.set('chosenSet', item);
+                    let obj = {};
+                    obj[key] = item;
+                    self.set('chosenSet', obj);
                 }
             });
+            // console.log(this.get('chosenSet'));
+            this.notifyPropertyChange('chosenSet');
 
             // console.log(this.get('chosenSet'));
+        },
+        addToCart(){
+            let obj = {
+                id: this.product.get('id'),
+                productSet: Object.keys(this.get('chosenSet'))[0],
+                quantity: this.get('quantity'),
+            };
+            this.get('cart').add(obj);
+            this.notifyPropertyChange('chosenSet');
+            // console.log(this.get('quantity'));
         }
     }
 });

@@ -75,6 +75,35 @@ export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin, {
         return this._super(store, primaryModelClass, payload, id, requestType);
     },
 
+    normalizeQueryResponse (store, primaryModelClass, payload, id, requestType){
+        let products = [];
+        let objVars = this.initVars();
+        let self = this;
+        _.each(payload.products, function(product){
+            let productSetsIds = [];
+            let productAttributesIds = [];
+            _.each(product.product2Attributes, function(product2Attribute){
+                self.normalizeProduct2Attributes(product2Attribute, productAttributesIds, objVars.productAttributes, objVars.attributesValues, objVars.attributes);
+            });
+            product.product2Attributes = productAttributesIds;
+            _.each(product.productSets, function(productSet){
+                self.normalizeProductSets(productSet, productSetsIds, objVars.productSets, objVars.product2Options, objVars.options, objVars.optionValues);
+            });
+            product.productSets = productSetsIds;
+            products[product.id] = product;
+        });
+        payload.product2Attributes = objVars.productAttributes;
+        payload.productSets = objVars.productSets;
+        payload.products = products;
+        payload.attributeValues = objVars.attributesValues;
+        payload.attributes = objVars.attributes;
+        payload.product2Options = objVars.product2Options;
+        payload.options = objVars.options;
+        payload.optionValues = objVars.optionValues;
+
+        return this._super(store, primaryModelClass, payload, id, requestType);
+    }
+
     // normalizeFindRecordResponse (store, primaryModelClass, payload, id, requestType){
     //     let objVars = this.initVars();
     //     let productSetsIds = [];

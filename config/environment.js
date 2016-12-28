@@ -2,6 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
+    defaultCategory: 15,
     host: 'http://shop.loc/app_dev.php',
     apiVersion: 'api/v1',
     modulePrefix: 'ember-shop',

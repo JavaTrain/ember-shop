@@ -1,0 +1,17 @@
+<table>
+    <tr>
+        <td rowspan="3">
+            <i class="uk-icon-medium uk-icon-shopping-cart"></i>
+        </td>
+    </tr>
+    <tr>
+        <th>Count:</th>
+        <td>{{totalCount}}</td>
+    </tr>
+    <tr>
+        <th>Price:</th>
+        <td>{{format-money totalPrice symbol=selectedCurrency format="%v %s"}}{{!totalPrice}}</td>
+    </tr>
+</table>
+
+{{yield}}

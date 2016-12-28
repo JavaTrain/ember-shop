@@ -14,11 +14,23 @@ export default ApplicationAdapter.extend({
             });
         });
     },
-    findRecord: function(store, type, id, snapshot) {
-        var url = `${config.host}/${config.apiVersion}/categories/${snapshot.record.get('category.id')}/products/${id}`;
 
+    // findRecord: function(store, type, id, snapshot) {
+    //     var url = `${config.host}/${config.apiVersion}/categories/${snapshot.record.get('category.id')}/products/${id}`;
+    //
+    //     return new Ember.RSVP.Promise(function(resolve, reject) {
+    //         Ember.$.getJSON(url).then(function(data) {
+    //             resolve(data);
+    //         }, function(jqXHR) {
+    //             reject(jqXHR);
+    //         });
+    //     });
+    // },
+
+    query: function(store, type, query) {
+        var url = `${config.host}/${config.apiVersion}/categories/${config.defaultCategory}/products`;
         return new Ember.RSVP.Promise(function(resolve, reject) {
-            Ember.$.getJSON(url).then(function(data) {
+            Ember.$.getJSON(`${url}`, query).then(function(data) {
                 resolve(data);
             }, function(jqXHR) {
                 reject(jqXHR);
