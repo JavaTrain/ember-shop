@@ -1,0 +1,19 @@
+<div>
+    <h5>Available Options</h5>
+    {{#each-in productOptions as |key option|}}
+        <div>
+            <h5>{{option.name}}</h5>
+            <div>
+                {{#each (obj-prop productValues key) as |optionValue|}}
+                    <div {{action 'checkOption'}} data-option-id="{{option.id}}" data-value-id="{{optionValue.id}}"
+                      class="uk-width-1-10 uk-badge uk-margin-right
+                      {{if (if-condition optionValue.id "==" (obj-prop checkedOptions option.id 'valueId')) "uk-badge-success"}}
+                      {{unless (if-in optionValue.id (obj-prop properOptions option.id)) "uk-badge-warning"}}
+                    ">
+                        {{optionValue.value}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    {{/each-in}}
+</div>

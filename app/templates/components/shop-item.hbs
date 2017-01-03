@@ -11,35 +11,16 @@
             {{/each}}
         </div>
         {{#if productOptions}}
-            <div>
-                <h5>Available Options</h5>
-                {{#each-in productOptions as |key option|}}
-                    <div>
-                        <h5>{{option.name}}</h5>
-                        <div>
-                            {{!log checkedOptions (obj-prop checkedOptions option.id 'optionValue')}}
-                            {{#each (obj-prop productValues key) as |optionValue|}}
-                                <div {{action 'checkOption'}} data-option-id="{{option.id}}" data-value-id="{{optionValue.id}}"
-                                    class="uk-width-1-10 uk-badge uk-margin-right
-                                    {{if (if-condition optionValue.id "==" (obj-prop checkedOptions option.id 'valueId')) "uk-badge-success"}}
-                                    {{unless (if-in optionValue.id (obj-prop properOptions option.id)) "uk-badge-warning"}}
-                                ">
-                                    {{optionValue.value}}
-                                </div>
-                            {{/each}}
-                        </div>
-                    </div>
-                {{/each-in}}
-                <div class="uk-form uk-form-horizontal">
-                    <div class="uk-form-row">
-                        <div class="uk-form-controls">
-                            {{input type="number" id="prod-quantity" min="1" value=quantity class="uk-form-width-mini uk-form-small"}}
-                            <label for="prod-quantity">Quantity</label>
-                        </div>
+            {{item-options product=product isCancelled=isCancelled chosenSet=chosenSet}}
+            <div class="uk-form uk-form-horizontal">
+                <div class="uk-form-row">
+                    <div class="uk-form-controls">
+                        {{input type="number" id="prod-quantity" min="1" value=quantity class="uk-form-width-mini uk-form-small"}}
+                        <label for="prod-quantity">Quantity</label>
                     </div>
                 </div>
             </div>
         {{/if}}
-        <button {{action 'addToCart'}} disabled={{isCancelled}} class="uk-button-primary uk-margin-top">Add To Cart</button>
+        <button {{action 'addToCart'}} disabled={{isCancelled}} class="uk-margin-top uk-button-primary {{if isCancelled "uk-button-danger"}}">Add To Cart</button>
     </div>
 </div>
